@@ -32,6 +32,7 @@ namespace WebApplication1.Utilities.EventSystem
                 tempTask.TaskType = TaskTypes.DispatcherZuweisen;
                 tempTask.Contract = contract;
                 tempTask.User = contract.Owner;
+                tempTask.IsDone = false;
 
                 tempTask.DateCreated = DateTime.Now;
                 tempTask.Expiring = DateTime.Now.AddSeconds(30);
@@ -41,18 +42,30 @@ namespace WebApplication1.Utilities.EventSystem
 
                 System.Diagnostics.Debug.WriteLine("Aufgabe erstellt");
 
-                //Call the Scheduler Singleton and Instantiate the job
-                IScheduler scheduler = Scheduler.Instance();
-                IJobDetail job = JobBuilder.Create<TestJob>().Build();
-
-                //Pass the Id of the task to the job for deleting it
-                job.JobDataMap["TaskId"] = tempTask.Id;
-
-                scheduler.ScheduleJob(job, Triggers.GetTriggerAtDate((DateTime)tempTask.Expiring));
+                
             }
 
-            
+        }
 
+        public static void OnDispatcherSet(object source, EventArgs e)
+        {
+            //Not implemented yet
+            
+        }
+
+        public static void OnTaskDone(object source, EventArgs e)
+        {
+            //when task is marked as done schedule the remove process some time after
+            ContractTask tempTask = (ContractTask)source;
+
+            //Call the Scheduler Singleton and Instantiate the job
+            IScheduler scheduler = Scheduler.Instance();
+            IJobDetail job = JobBuilder.Create<RemoveTaskWhenDone>().Build();
+
+            //Pass the Id of the task to the job for deleting it
+            job.JobDataMap["TaskId"] = tempTask.Id;
+
+            scheduler.ScheduleJob(job, Triggers.GetTriggerWithSecondOffset(30));
         }
         //DAVID TaskTest *********************************************************************************ENDE
     }
