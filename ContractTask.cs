@@ -5,6 +5,7 @@ using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
 using System.Linq;
 using System.Web;
+using WebApplication1.Utilities.EventSystem;
 
 namespace WebApplication1.Models
 {
@@ -16,22 +17,7 @@ namespace WebApplication1.Models
         public string Description { get; set; }
         public TaskTypes TaskType { get; set; }
         private bool isDone;
-        public bool IsDone {
-            get
-            {
-                return this.isDone;
-            }
-            set
-            {
-                if(value != isDone)
-                {
-                    if(value == true)
-                    {
-                        OnPropertyChanged("IsDone");
-                    }
-                }
-            }
-        }
+        public bool IsDone { get; set; }
 
         //Dates
         [DataType(DataType.Date)]
@@ -51,22 +37,44 @@ namespace WebApplication1.Models
         public virtual ContractUser User { get; set; }
 
 
-        //Events
-        protected void OnPropertyChanged(PropertyChangedEventArgs e)
+        //Events when task is done
+        public delegate void TaskDoneEventHandler(object source, EventArgs args);
+        public event TaskDoneEventHandler TaskDone;
+
+        protected virtual void OnTaskDone()
         {
-            PropertyChangedEventHandler handler = PropertyChanged;
-            if (handler != null)
+            if (TaskDone != null)
             {
-                handler(this, e);
+                TaskDone(this, EventArgs.Empty);
             }
         }
 
-        protected void OnPropertyChanged(string propertyName)
+        //Add Listeners here
+        public void TriggerTaskDoneEvent()
         {
-            OnPropertyChanged(new PropertyChangedEventArgs(propertyName));
+            this.TaskDone += EventUtility.OnTaskDone;
+            OnTaskDone();
+            this.TaskDone -= EventUtility.OnTaskDone;
         }
 
-        public static event PropertyChangedEventHandler PropertyChanged;
+        //Events when task is done
+        public delegate void TaskCreatedEventHandler(object source, EventArgs args);
+        public event TaskCreatedEventHandler TaskCreated;
+
+        protected virtual void OnTaskCreated()
+        {
+            if (TaskCreated != null)
+            {
+                TaskCreated(this, EventArgs.Empty);
+            }
+        }
+
+        public void TriggerTaskCreatedEvent()
+        {
+            this.TaskCreated += EventUtility.OnTaskCreated;
+            OnTaskCreated();
+            this.TaskCreated -= EventUtility.OnTaskCreated;
+        }
 
     }
 
