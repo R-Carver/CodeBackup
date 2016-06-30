@@ -13,7 +13,7 @@ namespace WebApplication1.Quartz
         {
             SimpleTriggerImpl trigger = new SimpleTriggerImpl
             (
-                "TriggerAtDate",
+                Triggers.RandomString(), //Random name because it has to be unique for a trigger type
                 null,
                 date,
                 null,
@@ -27,7 +27,7 @@ namespace WebApplication1.Quartz
         {
             SimpleTriggerImpl trigger = new SimpleTriggerImpl
             (
-                "TestTrigger",
+                Triggers.RandomString(), //Random name because it has to be unique for a trigger type
                 null,
                 DateTime.UtcNow.AddSeconds(seconds),
                 null,
@@ -36,6 +36,14 @@ namespace WebApplication1.Quartz
             );
 
             return trigger;
+        }
+
+        private static Random random = new Random();
+        private static string RandomString()
+        {
+            const string chars = "ABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789";
+            return new string(Enumerable.Repeat(chars, 10)
+              .Select(s => s[random.Next(s.Length)]).ToArray());
         }
     }
 }

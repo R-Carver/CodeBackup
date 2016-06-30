@@ -29,7 +29,7 @@ namespace WebApplication1.Quartz.Jobs
 
     }
 
-    public class RemoveTaskWhenDone : IJob
+    public class RemoveTask : IJob
     {
         public void Execute(IJobExecutionContext context)
         {
@@ -41,11 +41,17 @@ namespace WebApplication1.Quartz.Jobs
 
             MyDbContext db = new MyDbContext();
 
-            ContractTask task = db.ContractTasks.Find(taskKey);
-            db.ContractTasks.Remove(task);
-            db.SaveChanges();
+            
+            var task = db.ContractTasks.Find(taskKey);
 
-            System.Diagnostics.Debug.WriteLine("Aufgabe wurde geloescht ");
+            if(task != null)
+            {
+                db.ContractTasks.Remove(task);
+                db.SaveChanges();
+
+                System.Diagnostics.Debug.WriteLine("Aufgabe wurde geloescht ");
+            }
+            
         }
 
     }

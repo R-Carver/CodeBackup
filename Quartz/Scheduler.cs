@@ -16,6 +16,7 @@ namespace WebApplication1.Quartz
             {
                 scheduler = StdSchedulerFactory.GetDefaultScheduler();
                 scheduler.Start();
+                scheduler.Clear();
             }
             
             return scheduler;
