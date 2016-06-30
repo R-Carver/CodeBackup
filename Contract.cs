@@ -139,25 +139,6 @@ namespace WebApplication1.Models
         [DisplayName("Vertragslaufzeitoptionen")] //Ober
         public Nullable<ContractRuntimeTypes> RuntimeType { get; set; } //Ober set nullable
 
-
-        //David: Events for Tasks ****************************************************************************
-
-        /*protected void OnPropertyChanged(PropertyChangedEventArgs e)
-        {
-            PropertyChangedEventHandler handler = PropertyChanged;
-            if (handler != null)
-            {
-                handler(this, e);
-            }
-        }
-
-        protected void OnPropertyChanged(string propertyName)
-        {
-            OnPropertyChanged(new PropertyChangedEventArgs(propertyName));
-        }
-
-        public static event PropertyChangedEventHandler PropertyChanged;*/
-
         //Events for the DispatcherTask
         public delegate void DispatcherTaskEventHandler(object source, EventArgs args);
         public event DispatcherTaskEventHandler DispatcherTask;
@@ -194,9 +175,9 @@ namespace WebApplication1.Models
         //Add Listeners here
         public void TriggerDispatcherSetEvent()
         {
-            
+            this.DispatcherSet += EventUtility.OnDispatcherSet;
             OnDispatcherSet();
-            
+            this.DispatcherSet -= EventUtility.OnDispatcherSet;
         }
 
         //David: Events for Tasks ***********************************************************************ENDE
