@@ -1,0 +1,83 @@
+﻿#artikeltext li{
+	list-style-type:none;
+}
+
+
+#content a {
+}
+
+table{
+    width: 100%;
+    border-collapse: collapse;
+}
+
+.table  th, .table td{
+      /*width: 100px;*/
+      vertical-align: middle;
+      white-space: nowrap;
+      text-align: left;
+      text-indent: 5px;
+      height: 25px;
+      padding: 3px;
+  }
+
+.table th > *, .table td > * {
+    vertical-align: middle;
+}
+
+  dt, dd{
+      display: inline-block;
+  }
+
+  dt, dd{
+      display: inline-block;
+  }
+
+    th:last-child, td:last-child {
+        /*width: 100%;*/
+    }
+
+    .contractTableWrapper{
+        overflow: hidden;
+        padding-right: 130px;
+        box-sizing: border-box;
+        position: relative;
+        
+    }
+
+    .tableControls{
+        position: absolute;
+        right: 0px;
+        top: 0px;
+        box-shadow: 0px 0px 8px rgba(0, 0, 0, 0.5);
+    }
+
+        .tableControls td, .tableControls th {
+            height: 25px;
+            text-overflow: ellipsis;
+                max-width: 84px;
+                overflow:visible;
+        }
+
+        .tableControls td:first-child, .tableControls th:first-child {
+            width: 32px;
+            max-width: 32px;
+        }
+
+            .tableControls td > *, .tableControls th > * {
+                overflow: visible;
+                margin-top: -5px;
+                margin-bottom: -5px;
+                max-width: 80px;
+            }
+
+
+#select-column-btn{
+    /*right: 0px;
+    left: 0px;
+    bottom: 0px;
+    top: 0px;*/
+    border: none;
+    margin: 0px;
+    padding: 0px;
+}
