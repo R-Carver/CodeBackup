@@ -16,7 +16,7 @@ namespace WebApplication1.Utilities.EventSystem
     {
         
         //DAVID TaskTest *************************************************************************************
-        public static void OnTestEvent(object source, EventArgs e)
+        public static void OnDispatcherNeeded(object source, EventArgs e)
         {
             MyDbContext db = new MyDbContext();
 
@@ -29,23 +29,24 @@ namespace WebApplication1.Utilities.EventSystem
             {
                 var tempTask = new ContractTask();
 
-                tempTask.Description = "tolle Aufgabe";
+                tempTask.Description = "Dispatcher hinzufuegen";
                 tempTask.TaskType = TaskTypes.DispatcherZuweisen;
                 tempTask.Contract = contract;
                 tempTask.User = contract.Owner;
                 tempTask.IsDone = false;
 
                 tempTask.DateCreated = DateTime.Now;
-                tempTask.Expiring = DateTime.Now.AddSeconds(40);
+
+                //for Testing only - for Real App uncomment the Line after
+                tempTask.Expiring = DateTime.Now.AddMinutes(Constants.LAUFZEIT_DISPATCHERTASK_MINUTEN_TEST);
+                //tempTask.Expiring = DateTime.Now.AddDays(Constants.LAUFZEIT_DISPATCHERTASK_TAGE);
 
                 db.ContractTasks.Add(tempTask);
                 db.SaveChanges();
 
                 tempTask.TriggerTaskCreatedEvent();
 
-                System.Diagnostics.Debug.WriteLine("Aufgabe erstellt");
-
-                
+                System.Diagnostics.Debug.WriteLine("<Dispatcher zuweisen> Aufgabe erstellt");  
             }
 
         }
@@ -57,23 +58,137 @@ namespace WebApplication1.Utilities.EventSystem
 
             var contract = (Contract)source;
 
-            var task = db.ContractTasks.Where(t => t.Contract.Id == contract.Id).SingleOrDefault();
+            var task = db.ContractTasks.Where(t => t.Contract.Id == contract.Id && t.TaskType == TaskTypes.DispatcherZuweisen).SingleOrDefault();
             task.IsDone = true;
 
             db.Entry(task).State = EntityState.Modified;
             db.SaveChanges();
 
+            //take care that the task gets removed
             task.TriggerTaskDoneEvent();
 
-            System.Diagnostics.Debug.WriteLine("Is Done checken ");
+            System.Diagnostics.Debug.WriteLine("Dispatcher gewaehlt");
+        }
+
+        public static void OnContractToBeCompleted(object source, EventArgs e)
+        {
+            MyDbContext db = new MyDbContext();
+
+            var contract = (Contract)source;
+
+            //Get contract from db to check wheter the saving worked and the status is set
+            contract = db.Contracts.Find(contract.Id);
+
+            if (contract != null && contract.ContractStatus.Id == 1)
+            {
+                var tempTask = new ContractTask();
+
+                tempTask.Description = "Vertrag vervollstaendigen";
+                tempTask.TaskType = TaskTypes.VertragVervollstaendigen;
+                tempTask.Contract = contract;
+                tempTask.User = contract.Dispatcher;
+                tempTask.IsDone = false;
+
+                tempTask.DateCreated = DateTime.Now;
+
+                //for Testing only - for Real App uncomment the Line after
+                tempTask.Expiring = DateTime.Now.AddMinutes(Constants.LAUFZEIT_DISPATCHERTASK_MINUTEN_TEST);
+                //tempTask.Expiring = DateTime.Now.AddDays(Constants.LAUFZEIT_DISPATCHERTASK_TAGE);
+
+                db.ContractTasks.Add(tempTask);
+                db.SaveChanges();
+
+                //take care that the task gets removed
+                tempTask.TriggerTaskCreatedEvent();
+
+                System.Diagnostics.Debug.WriteLine("<Vertrag vervollstaendigen> Aufgabe erstellt");
+            }
 
         }
 
+        public static void OnContractCompleted(object source, EventArgs e)
+        {
+            //Not implemented yet - Mark Task as Done 
+            MyDbContext db = new MyDbContext();
+
+            var contract = (Contract)source;
+
+            var task = db.ContractTasks.Where(t => t.Contract.Id == contract.Id && t.TaskType == TaskTypes.VertragVervollstaendigen).SingleOrDefault();
+            task.IsDone = true;
+
+            db.Entry(task).State = EntityState.Modified;
+            db.SaveChanges();
+
+            //take care that the task gets removed
+            task.TriggerTaskDoneEvent();
+
+            System.Diagnostics.Debug.WriteLine("Vertrag vervollstaendigt");
+        }
+
+        public static void OnFilesToBeAdded(object source, EventArgs e)
+        {
+            MyDbContext db = new MyDbContext();
+
+            var contract = (Contract)source;
+
+            //Get contract from db to check wheter the saving worked and the status is set
+            contract = db.Contracts.Find(contract.Id);
+
+            if (contract != null && contract.ContractStatus.Id == 1)
+            {
+                var tempTask = new ContractTask();
+
+                tempTask.Description = "Dokument hochladen";
+                tempTask.TaskType = TaskTypes.DokumenteHochladen;
+                tempTask.Contract = contract;
+                tempTask.User = contract.Dispatcher;
+                tempTask.IsDone = false;
+
+                tempTask.DateCreated = DateTime.Now;
+
+                //for Testing only - for Real App uncomment the Line after
+                tempTask.Expiring = DateTime.Now.AddMinutes(Constants.LAUFZEIT_DISPATCHERTASK_MINUTEN_TEST);
+                //tempTask.Expiring = DateTime.Now.AddDays(Constants.LAUFZEIT_DISPATCHERTASK_TAGE);
+
+                db.ContractTasks.Add(tempTask);
+                db.SaveChanges();
+
+                //take care that the task gets removed
+                tempTask.TriggerTaskCreatedEvent();
+
+                System.Diagnostics.Debug.WriteLine("<Datein hochladen> Aufgabe erstellt");
+            }
+
+        }
+
+        public static void OnFilesAdded(object source, EventArgs e)
+        {
+            //Not implemented yet - Mark Task as Done 
+            MyDbContext db = new MyDbContext();
+
+            var contract = (Contract)source;
+
+            var task = db.ContractTasks.Where(t => t.Contract.Id == contract.Id && t.TaskType == TaskTypes.DokumenteHochladen).SingleOrDefault();
+            task.IsDone = true;
+
+            db.Entry(task).State = EntityState.Modified;
+            db.SaveChanges();
+
+            //take care that the task gets removed
+            task.TriggerTaskDoneEvent();
+
+            System.Diagnostics.Debug.WriteLine("Vertragsdokument hochgeladen");
+        }
+
+
+        //------------------------------- General Events ---------------------------------------  
+
         public static void OnTaskDone(object source, EventArgs e)
         {
-            System.Diagnostics.Debug.WriteLine("OnTaskDone happened");
             //when task is marked as done schedule the remove process some time after
             ContractTask tempTask = (ContractTask)source;
+
+            System.Diagnostics.Debug.WriteLine("Aufgabe "+ tempTask.TaskType.ToString() + " wird bald geloescht");
 
             //Call the Scheduler Singleton and Instantiate the job
             IScheduler scheduler = Scheduler.Instance();
@@ -82,7 +197,9 @@ namespace WebApplication1.Utilities.EventSystem
             //Pass the Id of the task to the job for deleting it
             job.JobDataMap["TaskId"] = tempTask.Id;
 
-            scheduler.ScheduleJob(job, Triggers.GetTriggerWithSecondOffset(30));
+            //for Testing only - for Real App uncomment the Line after
+            scheduler.ScheduleJob(job, Triggers.GetTriggerWithSecondOffset(Constants.LAUFZEIT_ERLEDIGTER_VERTRAG_SICHTBAR_SEKUNDEN_TEST));
+            //scheduler.ScheduleJob(job, Triggers.GetTriggerWithSecondOffset(Constants.LAUFZEIT_ERLEDIGTER_VERTRAG_SICHTBAR_TAGE));
         }
 
         public static void OnTaskCreated(object source, EventArgs e)
