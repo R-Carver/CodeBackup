@@ -139,7 +139,9 @@ namespace WebApplication1.Models
         [DisplayName("Vertragslaufzeitoptionen")] //Ober
         public Nullable<ContractRuntimeTypes> RuntimeType { get; set; } //Ober set nullable
 
-        //Events for the DispatcherTask
+        //David: Events for Tasks ***************************************************************************
+
+        //Events for the DispatcherTask ------------------------------------------------ 1
         public delegate void DispatcherTaskEventHandler(object source, EventArgs args);
         public event DispatcherTaskEventHandler DispatcherTask;
 
@@ -154,13 +156,13 @@ namespace WebApplication1.Models
         //Add Listeners here
         public void TriggerDispatcherTaskEvent()
         {
-            this.DispatcherTask += EventUtility.OnTestEvent;
+            this.DispatcherTask += EventUtility.OnDispatcherNeeded;
             OnDispatcherTask();
-            this.DispatcherTask -= EventUtility.OnTestEvent;
+            this.DispatcherTask -= EventUtility.OnDispatcherNeeded;
         }
 
 
-        //Events when the dispatcher is set
+        //Events when the dispatcher is set ---------------------------------------------- 2
         public delegate void DispatcherSetEventHandler(object source, EventArgs args);
         public event DispatcherSetEventHandler DispatcherSet;
 
@@ -178,6 +180,86 @@ namespace WebApplication1.Models
             this.DispatcherSet += EventUtility.OnDispatcherSet;
             OnDispatcherSet();
             this.DispatcherSet -= EventUtility.OnDispatcherSet;
+        }
+
+        //Event for Contract-Completion Task ---------------------------------------------- 3
+        public delegate void ContractCompletionEventHandler(object source, EventArgs args);
+        public event ContractCompletionEventHandler ContractToBeCompleted;
+
+        protected virtual void OnContractToBeCompleted()
+        {
+            if (ContractToBeCompleted != null)
+            {
+                ContractToBeCompleted(this, EventArgs.Empty);
+            }
+        }
+
+        //Add Listeners here
+        public void TriggerContractToBeCompletedEvent()
+        {
+            this.ContractToBeCompleted += EventUtility.OnContractToBeCompleted;
+            OnContractToBeCompleted();
+            this.ContractToBeCompleted -= EventUtility.OnContractToBeCompleted;
+        }
+
+        //Event for "Files To Be Added" Task ---------------------------------------------- 4
+        public delegate void FilesToBeAddedEventHandler(object source, EventArgs args);
+        public event FilesToBeAddedEventHandler FilesToBeAdded;
+
+        protected virtual void OnFilesToBeAdded()
+        {
+            if (FilesToBeAdded != null)
+            {
+                FilesToBeAdded(this, EventArgs.Empty);
+            }
+        }
+
+        //Add Listeners here
+        public void TriggerFilesToBeAddedEvent()
+        {
+            this.FilesToBeAdded += EventUtility.OnFilesToBeAdded;
+            OnFilesToBeAdded();
+            this.FilesToBeAdded -= EventUtility.OnFilesToBeAdded;
+        }
+
+        //Event when Contract Information is complete ------------------------------------ 5
+        public delegate void ContractCompletedEventHandler(object source, EventArgs args);
+        public event ContractCompletedEventHandler ContractCompleted;
+
+        protected virtual void OnContractCompleted()
+        {
+            if (ContractCompleted != null)
+            {
+                ContractCompleted(this, EventArgs.Empty);
+            }
+        }
+
+        //Add Listeners here
+        public void TriggerContractCompletedEvent()
+        {
+            this.ContractCompleted += EventUtility.OnContractCompleted;
+            OnContractCompleted();
+            this.ContractCompleted -= EventUtility.OnContractCompleted;
+        }
+
+        //Event when Contract-File is added --------------------------------------------- 6
+        public delegate void FilesAddedEventHandler(object source, EventArgs args);
+        public event FilesAddedEventHandler FilesAdded;
+
+        protected virtual void OnFilesAdded()
+        {
+            if (FilesAdded != null)
+            {
+                FilesAdded(this, EventArgs.Empty);
+            }
+        }
+
+        //Add Listeners here
+        public void TriggerFilesAddedEvent()
+        {
+            this.FilesAdded += EventUtility.OnFilesAdded;
+            OnFilesAdded();
+            this.FilesAdded -= EventUtility.OnFilesAdded;
         }
 
         //David: Events for Tasks ***********************************************************************ENDE
