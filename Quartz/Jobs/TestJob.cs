@@ -33,8 +33,6 @@ namespace WebApplication1.Quartz.Jobs
     {
         public void Execute(IJobExecutionContext context)
         {
-            System.Diagnostics.Debug.WriteLine("Aufgabe wird geloescht ");
-
             JobDataMap dataMap = context.JobDetail.JobDataMap;
 
             int taskKey = dataMap.GetInt("TaskId");
@@ -49,7 +47,7 @@ namespace WebApplication1.Quartz.Jobs
                 db.ContractTasks.Remove(task);
                 db.SaveChanges();
 
-                System.Diagnostics.Debug.WriteLine("Aufgabe wurde geloescht ");
+                System.Diagnostics.Debug.WriteLine("Aufgabe " + task.TaskType.ToString() + " wurde geloescht ");
             }
             
         }
