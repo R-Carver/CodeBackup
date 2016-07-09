@@ -1,0 +1,175 @@
+﻿@using WebApplication1.Models;
+@model WebApplication1.Models.ViewModels.ContractCreateCostsViewModel
+@{
+    ViewBag.Title = "Kosten";
+}
+
+@Html.Partial("_MultiCreatePartial")
+@using (Html.BeginForm(null, null, FormMethod.Post, new { name = "CreateContractForm", id = "CreateContractForm" }))
+{
+    @Html.AntiForgeryToken()
+    <div class="flexWrapper">
+        <div class="flexVertWrapper flexSize2">
+            <div class="innerWrapper flexSizeMax">
+                <div class="panel-heading">
+                    <h1>@ViewBag.Title</h1>
+                </div>
+                @Html.HiddenFor(model => model.ContractId)
+                @Html.HiddenFor(model => model.CostCenterIndex)
+                @*ContractValue*@
+                <div class="form-group">
+                    @Html.LabelFor(model => model.ContractValue, htmlAttributes: new { @class = "control-label col-md-2" })
+                    <div class="col-md-10">
+                        @Html.EditorFor(model => model.ContractValue, new { htmlAttributes = new { @class = "form-control" } })
+                        @Html.ValidationMessageFor(model => model.ContractValue, "", new { @class = "text-danger" })
+                    </div>
+                </div>
+                @*Paymentbegin*@
+                <div class="form-group">
+                    @Html.LabelFor(model => model.PaymentBegin, htmlAttributes: new { @class = "control-label col-md-2" })
+                    <div class="col-md-10">
+                        @Html.EditorFor(model => model.PaymentBegin, new { htmlAttributes = new { @class = "form-control" } })
+                        @Html.ValidationMessageFor(model => model.PaymentBegin, "", new { @class = "text-danger" })
+                    </div>
+                </div>
+                @*PaymentInterval*@
+                <div class="form-group">
+                    @Html.LabelFor(model => model.PaymentInterval, htmlAttributes: new { @class = "control-label col-md-2" })
+                    <div class="col-md-10">
+                        @Html.EditorFor(model => model.PaymentInterval, new { htmlAttributes = new { @class = "form-control" } })
+                        @Html.ValidationMessageFor(model => model.PaymentInterval, "", new { @class = "text-danger" })
+                    </div>
+                </div>
+                @*Tax*@
+                <div class="form-group">
+                    @Html.LabelFor(model => model.Tax, htmlAttributes: new { @class = "control-label col-md-2" })
+                    <div class="col-md-10">
+                        @Html.EditorFor(model => model.Tax, new { htmlAttributes = new { @class = "form-control" } })
+                        @Html.ValidationMessageFor(model => model.Tax, "", new { @class = "text-danger" })
+                    </div>
+                </div>
+                @*extra bools*@
+                <div class="form-group inlineBlock">
+                    @Html.LabelFor(model => model.PrePayable, htmlAttributes: new { @class = "control-label col-md-2" })
+                    <div class="col-md-10">
+                        @Html.CheckBoxFor(model => model.PrePayable, new { })
+                        @Html.ValidationMessageFor(model => model.PrePayable, "", new { @class = "text-danger" })
+                    </div>
+                </div>
+                <div class="form-group inlineBlock">
+                    @Html.LabelFor(model => model.VarPayable, htmlAttributes: new { @class = "control-label col-md-2" })
+                    <div class="col-md-10">
+                        @Html.CheckBoxFor(model => model.VarPayable, new { })
+                        @Html.ValidationMessageFor(model => model.VarPayable, "", new { @class = "text-danger" })
+                    </div>
+                </div>
+                <div class="form-group inlineBlock">
+                    @Html.LabelFor(model => model.Adaptable, htmlAttributes: new { @class = "control-label col-md-2" })
+                    <div class="col-md-10">
+                        @Html.CheckBoxFor(model => model.Adaptable, new { })
+                        @Html.ValidationMessageFor(model => model.Adaptable, "", new { @class = "text-danger" })
+                    </div>
+                </div>
+                @*Costcenters*@
+                <div class="form-group row">
+                    <div class="form-row col-md-10">
+                        @Html.LabelFor(model => model.CostCenterIds, htmlAttributes: new { @class = "control-label col-md-2" })
+                    </div>
+                    @{
+                        int i = 0;
+                        foreach (ContractCostCenter_Relation cCenter in Model.ContractCostCenter_Relations)
+                        {
+                            <div id="CostCenterBox_@(i)" class="col-md-5" value="@(i)">
+                                @Html.DropDownListFor(m => m.CostCenterClientId, Model.Clients, "- select nothing -", htmlAttributes: new { @class = "form-control" })
+                                @Html.DropDownListFor(m => m.CostCenterIds[i], Model.CostCenterSelectLists[i], "- select nothing -", htmlAttributes: new { @class = "form-control" })
+
+                                @Html.TextBox("CostCenterPercentageSlider_" + i, null, new { @class = "form-range form-range col-md-7", type = "range", oninput = "ContractCostCenter_Relations_" + i + "__Percentage.value = parseToLocal(CostCenterPercentageSlider_" + i + ".value) ;", min = "0", max = "1", step = "0.01" , pattern = "[0-9]+([\\,][0-9]+)?" })
+                                @Html.EditorFor(model => model.ContractCostCenter_Relations[i].Percentage, new { htmlAttributes = new { @class = "form-control col-md-1", oninput = "CostCenterPercentageSlider_" + i + ".value = parseToGlobal(ContractCostCenter_Relations_" + i + "__Percentage.value);", min = 0 } })
+                                @Html.ValidationMessageFor(model => model.ContractCostCenter_Relations[i].Percentage, "", new { @class = "text-danger" })
+                                @Html.ValidationMessageFor(model => model.CostCenterIds[i], "", new { @class = "text-danger" })
+                                @*@Html.Hidden("@("CostCenterIndex"+i)", i )*@
+                                @*<input id="CostCenterIndex_@(i)" name="CostCenterIndex_@(i)" value="0" type="hidden">*@
+                                <input id="addCostCenter_@(i)" type="submit" value="removeCostCenter" class="textBtn leftFloat" name="submit" onclick="setCostCenterIndex(this)" />
+                            </div>
+                            i++;
+                        }
+                    }
+                    <div class="form-row col-md-10">
+                        @*<input type="submit" value="Add" onclick="location.href='@Url.Action("CreateCosts", "Contract", new RouteValueDictionary(new { Model, actionValue = "updateCostCenter"}) )'" />*@
+                        <input id="addCostCenter" type="submit" value="addCostCenter" class="textBtn leftFloat" name="submit" />
+                        @*<input type="button" value="Add" onclick="location.href='@Url.Action("AddCostCenter", "Contract", Model )'" />*@
+                    </div>
+                </div>
+                <div class="form-group form-row col-md-12">
+                    @Html.LabelFor(model => model.CostKindId, htmlAttributes: new { @class = "control-label col-md-2" })
+                    <div class="col-md-10">
+                        @Html.DropDownListFor(m => m.CostKindId, Model.CostKinds, "- select nothing -", htmlAttributes: new { @class = "form-control" })
+                        @Html.ValidationMessageFor(model => model.CostKindId, "", new { @class = "text-danger" })
+                    </div>
+                </div>
+
+            </div>
+        </div>
+        @Html.Partial("_RightFormPartial", Model.Contract, new ViewDataDictionary { TemplateInfo = new System.Web.Mvc.TemplateInfo { HtmlFieldPrefix = "Contract" } }))
+        @*Template Info is necessary, to define Model as Contract*@
+    </div>
+                        }
+
+
+@section Scripts {
+    @Scripts.Render("~/bundles/jqueryval")
+    @Styles.Render("~/Content/css/JQuery/calendar.css")
+    @Scripts.Render("~/Scripts/Layout/datepicker.js")
+    @Scripts.Render("~/Scripts/globalize/number.js")
+    <script type="text/javascript">
+        /******************Costcenters********************/
+
+        //On TypeChange
+        $(function () {
+            $("#CostCenterClientId").change(function () {
+                updateCostCentersFromClient();
+            });
+        });
+
+        function updateCostCentersFromClient() {
+            var deffered = $.Deferred();
+            var selectedClientValue = $('#CostCenterClientId :selected').text();
+            $.post('@Url.Action("GetJsonCostCentersFromClient", "Contract")', { client: selectedClientValue }, function (data) {
+                // handle the server response here
+                $("#CostCenterId").empty();
+                data = $.map(data, function (item, a) {
+                    return "<option value=" + item.Value + " " + (item.Selected ? "selected" : "") + ">" + item.Text + "</option>";
+                });
+
+                $("#CostCenterId").html(data.join(""));
+                deffered.resolve();
+            });
+            return deffered.promise();
+        }
+
+        function setCostCenterIndex(elem) {
+            $("#CostCenterIndex").val($(elem).parent("div").attr("value"));
+            //console.log("i'm here");
+            //$('<input>').attr({
+            //    type: 'submit',
+            //    id: 'submit',
+            //    name: 'submit',
+            //    value: "removeCostCenter"
+            //}).appendTo('#CreateContractForm');
+            //$("#CreateContractForm").submit();
+        }
+
+        function parseToLocal(elem) {
+            return elem.replace(/\./g, ',');
+            //To be implemented to do a real loclize
+            //console.log($.formatNumber(elem))
+            //return Globalize.formatNumber(elem);
+        }
+
+        function parseToGlobal(elem) {
+            return elem.replace(/\,/g, '.');
+        }
+
+    </script>
+}
+

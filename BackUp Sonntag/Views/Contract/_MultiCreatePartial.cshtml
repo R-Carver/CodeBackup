@@ -1,0 +1,19 @@
+﻿@{
+    ViewBag.Title = "MultiCreatePartial";
+    ViewBag.IsCreateInit = (ViewContext.RouteData.GetRequiredString("action") == "CreateInit");
+}
+<div class="top-navigation innerWrapper">
+    <ul>
+        @*@Html.ActionLink("Edit", "Edit", new { id = Model.Id }) |*@
+        <li><a href="@Url.Action("CreateInit", "Contract", new { id = Model.ContractId })" class="@(ViewContext.RouteData.Values["Action"].ToString() == "CreateInit" ? "active" : "")">Pflicht</a></li>
+        <li><span>|</span></li>
+        <li><a href="@Url.Action("CreateGeneral", "Contract", new { id = Model.ContractId })" class="@(ViewContext.RouteData.Values["Action"].ToString() == "CreateGeneral" ? "active" : "")" 
+               @{if(ViewBag.IsCreateInit) { <text> style = "pointer-events: none; color: #BBB !important;" </text>} }>Allgemein</a></li>
+        <li><a href="@Url.Action("CreateDates", "Contract", new { id = Model.ContractId })" class="@(ViewContext.RouteData.Values["Action"].ToString()== "CreateDates" ? "active" : "")"
+               @{if(ViewBag.IsCreateInit) { <text> style = "pointer-events: none; color: #BBB !important;" </text>} }>Termine</a></li>
+        <li><a href="@Url.Action("CreateCosts", "Contract", new { id = Model.ContractId })" class="@(ViewContext.RouteData.Values["Action"].ToString()== "CreateCosts" ? "active" : "")"
+               @{if(ViewBag.IsCreateInit) { <text> style = "pointer-events: none; color: #BBB !important;" </text>} }>Kosten</a></li>
+        <li><a href="@Url.Action("CreateFiles", "Contract", new { id = Model.ContractId })" class="@(ViewContext.RouteData.Values["Action"].ToString()== "CreateFiles" ? "active" : "")"
+               @{if(ViewBag.IsCreateInit) { <text> style = "pointer-events: none; color: #BBB !important;" </text>} }>Dateien</a></li>
+    </ul>
+</div>

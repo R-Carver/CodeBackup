@@ -1,0 +1,17 @@
+﻿Content-Type: text/html; charset=utf-8
+
+<html>
+    <body>
+        Hallo,
+
+        Ihnen wurde ein neuer Vertrag zugeteilt.
+
+        Die Pflichtfelder des Vertrages muessen gesetzt werden
+        und eine digitale Version des Vertrages als Datei
+        angehaengt werden
+
+        Hier gehts direkt zum Vertrag:
+        @*@Html.ActionLink("edit", "CreateGeneral", new { id = ViewBag.contractId }, new { })*@
+        <a href="/Emails/CreateGeneral/82">edit</a>
+    </body>
+</html>

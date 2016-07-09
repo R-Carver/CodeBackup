@@ -1,0 +1,47 @@
+﻿@model IEnumerable<WebApplication1.Models.Contract>
+
+@{
+    ViewBag.Title = "Startseite";
+}
+@using (Html.BeginForm())
+{
+    @Html.AntiForgeryToken()
+
+    <div class="flexWrapper">
+        <div class="flexSize2 flexVertWrapper">
+            <div class="innerWrapper flexSizeMax">
+                @*Example for Android-Design-Icons*@
+                @*<i class="material-icons md-24">face</i>*@
+                @*<h2>@ViewBag.Title</h2>*@
+                <h2>Meine Terminübersicht</h2>
+                <span class="material-icons md-24">alarm</span><a>  25.12.2017   Vertrag 1344 läuft aus</a>
+            </div>
+            <div class="innerWrapper flexSizeMax">
+                <h2>Meine Aufgaben</h2>
+            </div>
+
+        </div>
+
+        <div class="innerWrapper flexSize1">
+            <h2>Verträge</h2>
+            <div class="max-width">
+                <a class="textBtn leftFloat">22 Gesamt</a>
+                <a class="textBtn leftFloat">5 unvollständig</a>
+                <a class="textBtn leftFloat">3 Bla</a><br />
+            </div>
+            <h2>
+                Persönliche Übersicht
+            </h2><hr />
+            <font>
+                mein Buchungskreis: Klinikum Viechdorf
+            </font><br />
+            <font>
+                meine Abteilung: IT-Abteilung
+            </font><br />
+        </div>
+    </div>
+}
+
+@section Scripts{
+}<!--end Ober-->
+

@@ -1,0 +1,174 @@
+@model WebApplication1.Models.ViewModels.ContractCreateDatesViewModel
+@{
+    ViewBag.Title = "Termine";
+}
+@Html.Partial("_MultiCreatePartial")
+@using (Html.BeginForm())
+{
+    @Html.AntiForgeryToken()
+    <div class="flexWrapper">
+        <div class="flexVertWrapper flexSize2">
+            <div class="innerWrapper flexSizeMax">
+                <h2>@ViewBag.Title</h2>
+                @Html.HiddenFor(model => model.ContractId)
+                @*Vertragslaufzeitoptionen*@
+                <div class="form-group form-row">
+                    @Html.LabelFor(model => model.RuntimeType, htmlAttributes: new { @class = "control-label col-md-2" })
+                    <div class="col-md-10">
+                        @Html.EnumDropDownListFor(m => m.RuntimeType, "- select nothing -", htmlAttributes: new { @class = "form-control" })
+                        @Html.ValidationMessageFor(model => model.RuntimeType, "", new { @class = "text-danger" })
+                    </div>
+                </div>
+                <div class="form-row">
+                    @*Contractbegin*@
+                    <div class="form-group col-md-6">
+                        @Html.LabelFor(model => model.ContractBegin, htmlAttributes: new { @class = "control-label col-md-2" })
+                        <div class="col-md-10">
+                            @Html.EditorFor(model => model.ContractBegin, new { htmlAttributes = new { @class = "form-control" } })
+                            @Html.ValidationMessageFor(model => model.ContractBegin, "", new { @class = "text-danger" })
+                        </div>
+                    </div>
+                    @*CancellationDate*@
+                    <div class="form-group col-md-6" id="cancellationDateForm">
+                        @Html.LabelFor(model => model.CancellationDate, htmlAttributes: new { @class = "control-label col-md-2" })
+                        <div class="col-md-10">
+                            @Html.EditorFor(model => model.CancellationDate, new { htmlAttributes = new { @class = "form-control" } })
+                            @Html.ValidationMessageFor(model => model.CancellationDate, "", new { @class = "text-danger" })
+                        </div>
+                    </div>
+                </div>
+                @*CancellationPeriod*@
+                <div class="form-group form-row" id="cancellationPeriodForm">
+                    @Html.LabelFor(model => model.CancellationPeriod, htmlAttributes: new { @class = "control-label col-md-10" })
+                    <div>
+                        <div class="col-md-5">
+                            @*<label for="CancellationPeriod_Days">CancellationPeriod_Days:</label>*@
+                            @*@Html.LabelFor(model => model.CancellationPeriod.Days)*@
+                            @Html.TextBox("CancellationPeriod_Days_Slider", null, new { @class = "form-range col-md-7", type = "range", oninput = "CancellationPeriod_Days.value = CancellationPeriod_Days_Slider.value", min = "0", max = "31", step = "1" })
+                            @Html.EditorFor(model => model.CancellationPeriod.Days, new { htmlAttributes = new { @class = "form-control col-md-1", oninput = "CancellationPeriod_Days_Slider.value = CancellationPeriod_Days.value", min = 0, max = 31 } })
+                            @Html.ValidationMessageFor(model => model.CancellationPeriod.Days, "", new { @class = "text-danger" })
+                            <span>Angabe in Tagen</span>
+                        </div>
+                        <div class="col-md-5">
+                            @Html.TextBox("CancellationPeriod_Months_Slider", null, new { @class = "form-range form-range col-md-7", type = "range", oninput = "CancellationPeriod_Months.value = CancellationPeriod_Months_Slider.value", min = "0", max = "48", step = "1" })
+                            @Html.EditorFor(model => model.CancellationPeriod.Months, new { htmlAttributes = new { @class = "form-control col-md-1", oninput = "CancellationPeriod_Months_Slider.value = CancellationPeriod_Months.value", min = 0 } })
+                            @Html.ValidationMessageFor(model => model.CancellationPeriod.Months, "", new { @class = "text-danger" })
+                            <span>Angabe in Monaten</span><br />
+                        </div>
+                        @Html.ValidationMessageFor(model => model.CancellationPeriod, "", new { @class = "text-danger" })
+                    </div>
+                </div>
+                <div class="form-group col-md-5" id="minContractDurationForm">
+                    @Html.LabelFor(model => model.MinContractDuration, htmlAttributes: new { @class = "control-label col-md-2" })
+                    <div class="col-md-10">
+                        @Html.TextBox("MinContractDuration_Slider", null, new { @class = "form-range", type = "range", oninput = "MinContractDuration.value = MinContractDuration_Slider.value", min = "12", max = "48", step = "1" })
+                        @Html.EditorFor(model => model.MinContractDuration, new { htmlAttributes = new { @class = "form-control", oninput = "MinContractDuration_Slider.value = MinContractDuration.value", min = 0 } })
+                        @Html.ValidationMessageFor(model => model.MinContractDuration, "", new { @class = "text-danger" })
+                        <span>Angabe in Monaten</span>
+                    </div>
+                </div>
+                @*ContractEnd*@
+                <div class="form-group col-md-5" id="contractEndForm">
+                    @Html.LabelFor(model => model.ContractEnd, htmlAttributes: new { @class = "control-label col-md-2" })
+                    <div class="col-md-10">
+                        @Html.EditorFor(model => model.ContractEnd, new { htmlAttributes = new { @class = "form-control" } })
+                        @Html.ValidationMessageFor(model => model.ContractEnd, "", new { @class = "text-danger" })
+                        <span>Angabe nur nötig, wenn Vertrag automatisch ausläuft</span>
+                    </div>
+                </div>
+                <div class="form-group col-md-5" id="autoExtensionForm">
+                    @Html.LabelFor(model => model.AutoExtension, htmlAttributes: new { @class = "control-label col-md-2" })
+                    <div class="col-md-10">
+                        @Html.TextBox("AutoExtension_Slider", null, new { @class = "form-range", type = "range", oninput = "AutoExtension.value = AutoExtension_Slider.value", min = "0", max = "48", step = "1" })
+                        @Html.EditorFor(model => model.AutoExtension, new { htmlAttributes = new { @class = "form-control", oninput = "AutoExtension_Slider.value = AutoExtension.value", min = 0 } })
+                        @Html.ValidationMessageFor(model => model.AutoExtension, "", new { @class = "text-danger" })
+                        <span>Angabe in Monaten</span>
+                    </div>
+                </div>
+            </div>
+        </div>
+        @Html.Partial("_RightFormPartial", Model.Contract, new ViewDataDictionary { TemplateInfo = new System.Web.Mvc.TemplateInfo { HtmlFieldPrefix = "Contract" } }))
+        @*Template Info is necessary, to define Model as Contract*@
+    </div>
+}
+
+@section Scripts {
+    @Scripts.Render("~/bundles/jqueryval")
+    @Styles.Render("~/Content/css/JQuery/calendar.css")
+    @Scripts.Render("~/Scripts/Layout/datepicker.js")
+    <script type="text/javascript">
+        /******************Onload Page, update all Boxes*************/
+        $(document).ready(function () {
+            updatePaymentForms();
+            /*Add more functions, if it's necessary*/
+        });
+
+        /**********************RuntimeType************************/
+        //On TypeChange
+        $(function () {
+            $("#RuntimeType").change(function () {
+                updatePaymentForms();
+            });
+        });
+
+        function updatePaymentForms() {
+            switch ($("#RuntimeType :selected").val()) {
+                case "1": //= 1 feste Laufzeit
+                    $("#contractEndForm").show();
+                    $("#cancellationPeriodForm").hide();
+                    $("#cancellationDateForm").hide();
+                    $("#minContractDurationForm").hide();
+                    $("#autoExtensionForm").hide();
+                    break;
+                case "2": //= 2 feste Laufzeit mit vorz. Kuendigung
+                    $("#contractEndForm").show();
+                    $("#cancellationPeriodForm").show();
+                    $("#cancellationDateForm").show();
+                    $("#minContractDurationForm").hide();
+                    $("#autoExtensionForm").hide();
+                    break;
+                case "3": //= 3 unbefristet mit stillschweigender Verlaengerung
+                    console.log("Status3");
+                    $("#contractEndForm").hide();
+                    $("#cancellationPeriodForm").show();
+                    $("#cancellationDateForm").show();
+                    $("#minContractDurationForm").show();
+                    $("#autoExtensionForm").show();
+                    break;
+                default:
+                    $("#contractEndForm").hide();
+                    $("#cancellationPeriodForm").hide();
+                    $("#cancellationDateForm").hide();
+                    $("#minContractDurationForm").hide();
+                    $("#autoExtensionForm").hide();
+                    break;
+            }
+        }
+
+        /******************AutoExtension********************/
+        /*$(document).ready(function () {
+            checkAutoExtension();
+        });
+
+        //On TypeChange
+        $(function () {
+            $("#ContractEnd").focusin(function () {
+                $("#autoExtensionForm").hide();
+            });
+        });
+
+        $(function () {
+            $("#ContractEnd").focusout(function () {
+                checkAutoExtension();
+            });
+        });
+
+        function checkAutoExtension() {
+            if ($("#ContractEnd").val().length == 0) {
+                $("#autoExtensionForm").show();
+            } else {
+                $("#autoExtensionForm").hide();
+            }
+        */
+    </script>
+}

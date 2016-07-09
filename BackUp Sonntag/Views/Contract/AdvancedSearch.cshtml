@@ -1,0 +1,416 @@
+﻿@model WebApplication1.Models.ViewModels.ContractAdvancedSearchViewModel
+@{
+    ViewBag.Title = "AdvancedSearch";
+    Layout = "~/Views/Shared/_WrapperLayout.cshtml";
+}
+
+
+@using (Html.BeginForm())
+{
+    <h2>AdvancedSearch</h2>
+    <div class="flexWrapper">
+        <div class="innerWrapper flexSize1">
+            <div class="form-group">
+                <b class="control-label col-md-2">Department :</b>
+                @Html.DropDownListFor(m => m.DepartmentId, Model.Departments, "-- Select Nothing --", htmlAttributes: new { @class = "form-control" })
+                @Html.ValidationMessageFor(model => model.DepartmentId, "", new { @class = "text-danger" })
+            </div>
+            <div class="form-group">
+                <b class="control-label col-md-2">ContractStatus :</b>
+                @Html.DropDownListFor(m => m.ContractStatusId, Model.ContractStatuses, "-- Select Nothing", htmlAttributes: new { @class = "form-control" })
+                @Html.ValidationMessageFor(model => model.ContractStatusId, "", new { @class = "text-danger" })
+            </div>
+            <div class="form-group">
+                <b class="control-label col-md-2">ContractKind :</b>
+                @Html.DropDownListFor(m => m.ContractKindId, Model.ContractKinds, "-- Select Nothing --", htmlAttributes: new { @class = "form-control" })
+                @Html.ValidationMessageFor(model => model.ContractKindId, "", new { @class = "text-danger" })
+            </div>
+            <div class="form-group">
+                <b class="control-label col-md-2">ContractType :</b>
+                @Html.DropDownListFor(m => m.ContractTypeId, Model.ContractTypes, "-- Select Nothing --", htmlAttributes: new { @class = "form-control" })
+                @Html.ValidationMessageFor(model => model.ContractTypeId, "", new { @class = "text-danger" })
+            </div>
+            <div class="form-group">
+                <b class="control-label col-md-2">ContractSubType :</b>
+                @Html.DropDownListFor(m => m.ContractSubTypeId, Model.ContractSubTypes, "-- Select Nothing --", htmlAttributes: new { @class = "form-control" })
+                @Html.ValidationMessageFor(model => model.ContractSubTypeId, "", new { @class = "text-danger" })
+            </div>
+            <div class="form-group">
+                <b class="control-label col-md-2">CostCenter :</b>
+                @Html.DropDownListFor(m => m.CostCenterId, Model.CostCenters, "-- Select Nothing --", htmlAttributes: new { @class = "form-control" })
+                @Html.ValidationMessageFor(model => model.CostCenterId, "", new { @class = "text-danger" })
+            </div>
+            <div class="form-group">
+                <b class="control-label col-md-2">CostKind :</b>
+                @Html.DropDownListFor(m => m.CostKindId, Model.CostKinds, "-- Select Nothing --", htmlAttributes: new { @class = "form-control" })
+                @Html.ValidationMessageFor(model => model.CostKindId, "", new { @class = "text-danger" })
+            </div>
+            <div class="form-group">
+                @Html.LabelFor(model => model.Adaptable, htmlAttributes: new { @class = "control-label col-md-2" })
+                @Html.DropDownListFor(model => model.Adaptable, new SelectList(new List<Object>{ new { value = 0 , text = "Nein"  },
+                                                                                                 new { value = 1 , text = "Ja"}
+                                                                                                },"value","text",2), "-- Select Nothing --" , htmlAttributes: new { @class = "form-control" })
+                
+                @*@Html.DropDownListFor(m => m.Adaptable, Model.Adaptable, "-- Select Nothing", htmlAttributes: new { @class = "form-control" })*@
+                @Html.ValidationMessageFor(model => model.Adaptable, "", new { @class = "text-danger" })
+            </div>
+            <div class="form-group">
+                @Html.LabelFor(model => model.PrePayable, htmlAttributes: new { @class = "control-label col-md-2" })
+                @Html.DropDownListFor(m => m.PrePayable, new SelectList(new List<Object>{ new { value = 0 , text = "Nein"  },
+                                                                                                 new { value = 1 , text = "Ja"}
+                                                                                                }, "value", "text", 2), "-- Select Nothing --", htmlAttributes: new { @class = "form-control" })
+                @Html.ValidationMessageFor(model => model.PrePayable, "", new { @class = "text-danger" })
+            </div>
+            <div class="form-group">
+               @Html.LabelFor(model => model.VarPayable, htmlAttributes: new { @class = "control-label col-md-2" })
+            @Html.DropDownListFor(m => m.VarPayable, new SelectList(new List<Object>{ new { value = 0 , text = "Nein"  },
+                                                                                                 new { value = 1 , text = "Ja"}
+                                                                                                }, "value", "text", 2), "-- Select Nothing --", htmlAttributes: new { @class = "form-control" })
+            @Html.ValidationMessageFor(model => model.VarPayable, "", new { @class = "text-danger" })
+            </div>
+            <div class="form-group">
+               @Html.LabelFor(model => model.IsFrameContract, htmlAttributes: new { @class = "control-label col-md-2" })
+            @Html.DropDownListFor(m => m.IsFrameContract, new SelectList(new List<Object>{ new { value = 0 , text = "Nein"  },
+                                                                                                 new { value = 1 , text = "Ja"}
+                                                                                                }, "value", "text", 2), "-- Select Nothing --", htmlAttributes: new { @class = "form-control" })
+            @Html.ValidationMessageFor(model => model.IsFrameContract, "", new { @class = "text-danger" })
+            </div>
+            <div class="form-group">
+                @Html.LabelFor(model => model.Description, htmlAttributes: new { @class = "control-label col-md-2" })
+                @Html.TextBoxFor(m => m.Description, new { @class = "form-control" })
+            </div>
+            <div class="form-group">
+                @Html.LabelFor(model => model.Remarks, htmlAttributes: new { @class = "control-label col-md-2" })
+                @Html.TextBoxFor(m => m.Remarks, new { @class = "form-control" })
+            </div>
+        </div>
+        
+        <div class="innerWrapper flexSize1">
+            <div class="form-group">
+                @Html.LabelFor(model => model.PaymentBeginFrom, htmlAttributes: new { @class = "control-label col-md-2" })
+                <div class="col-md-1">
+                    @Html.EditorFor(model => model.PaymentBeginFrom, new { htmlAttributes = new { @class = "form-control" } })
+                    @Html.ValidationMessageFor(model => model.PaymentBeginFrom, "", new { @class = "text-danger" })
+                </div>
+            </div>
+
+            <div class="form-group">
+                @Html.LabelFor(model => model.PaymentBeginTo, htmlAttributes: new { @class = "control-label col-md-2" })
+                <div class="col-md-1">
+                    @Html.EditorFor(model => model.PaymentBeginTo, new { htmlAttributes = new { @class = "form-control" } })
+                    @Html.ValidationMessageFor(model => model.PaymentBeginTo, "", new { @class = "text-danger" })
+                </div>
+            </div>
+            <div class="form-group">
+                @Html.LabelFor(model => model.ContractBeginFrom, htmlAttributes: new { @class = "control-label col-md-2" })
+                <div class="col-md-1">
+                    @Html.EditorFor(model => model.ContractBeginFrom, new { htmlAttributes = new { @class = "form-control" } })
+                    @Html.ValidationMessageFor(model => model.ContractBeginFrom, "", new { @class = "text-danger" })
+                </div>
+            </div>
+
+            <div class="form-group">
+                @Html.LabelFor(model => model.ContractBeginTo, htmlAttributes: new { @class = "control-label col-md-2" })
+                <div class="col-md-1">
+                    @Html.EditorFor(model => model.ContractBeginTo, new { htmlAttributes = new { @class = "form-control" } })
+                    @Html.ValidationMessageFor(model => model.ContractBeginTo, "", new { @class = "text-danger" })
+                </div>
+            </div>
+            <div class="form-group">
+                @Html.LabelFor(model => model.ContractEndFrom, htmlAttributes: new { @class = "control-label col-md-2" })
+                <div class="col-md-1">
+                    @Html.EditorFor(model => model.ContractEndFrom, new { htmlAttributes = new { @class = "form-control" } })
+                    @Html.ValidationMessageFor(model => model.ContractEndFrom, "", new { @class = "text-danger" })
+                </div>
+            </div>
+            <div class="form-group">
+                @Html.LabelFor(model => model.ContractEndTo, htmlAttributes: new { @class = "control-label col-md-2" })
+                <div class="col-md-1">
+                    @Html.EditorFor(model => model.ContractEndTo, new { htmlAttributes = new { @class = "form-control" } })
+                    @Html.ValidationMessageFor(model => model.ContractEndTo, "", new { @class = "text-danger" })
+                </div>
+            </div>
+
+            <div class="form-group">
+                @Html.LabelFor(model => model.CancellationAppointmentFrom, htmlAttributes: new { @class = "control-label col-md-2" })
+                <div class="col-md-1">
+                    @Html.EditorFor(model => model.CancellationAppointmentFrom, new { htmlAttributes = new { @class = "form-control" } })
+                    @Html.ValidationMessageFor(model => model.CancellationAppointmentFrom, "", new { @class = "text-danger" })
+                </div>
+            </div>
+            <div class="form-group">
+                @Html.LabelFor(model => model.CancellationAppointmentTo, htmlAttributes: new { @class = "control-label col-md-2" })
+                <div class="col-md-1">
+                    @Html.EditorFor(model => model.CancellationAppointmentTo, new { htmlAttributes = new { @class = "form-control" } })
+                    @Html.ValidationMessageFor(model => model.CancellationAppointmentTo, "", new { @class = "text-danger" })
+                </div>
+            </div>
+        </div>  
+        <div class="innerWrapper flexSize1">
+            <div class="form-group">
+                @Html.LabelFor(model => model.IntContractNumFrom, htmlAttributes: new { @class = "control-label col-md-2" })
+                @Html.TextBoxFor(m => m.IntContractNumFrom, new { @class = "form-control" })
+                @Html.LabelFor(model => model.IntContractNumTo, htmlAttributes: new { @class = "control-label col-md-2" })
+                @Html.TextBoxFor(m => m.IntContractNumTo, new { @class = "form-control" })
+            </div>
+            <div class="form-group">
+                @Html.LabelFor(model => model.ExtContractNumFrom, htmlAttributes: new { @class = "control-label col-md-2" })
+                @Html.TextBoxFor(m => m.ExtContractNumFrom, new { @class = "form-control" })
+                @Html.LabelFor(model => model.ExtContractNumTo, htmlAttributes: new { @class = "control-label col-md-2" })
+                @Html.TextBoxFor(m => m.ExtContractNumTo, new { @class = "form-control" })
+            </div>
+            <div class="form-group">
+                @Html.LabelFor(model => model.PaymentIntervalFrom, htmlAttributes: new { @class = "control-label col-md-2" })
+                @Html.TextBoxFor(m => m.PaymentIntervalFrom, new { @class = "form-control" })
+                @Html.LabelFor(model => model.PaymentIntervalTo, htmlAttributes: new { @class = "control-label col-md-2" })
+                @Html.TextBoxFor(m => m.PaymentIntervalTo, new { @class = "form-control" })
+            </div>
+            <div class="form-group">
+                @Html.LabelFor(model => model.MinContractDurationFrom, htmlAttributes: new { @class = "control-label col-md-2" })
+                @Html.TextBoxFor(m => m.MinContractDurationFrom, new { @class = "form-control" })
+                @Html.LabelFor(model => model.MinContractDurationTo, htmlAttributes: new { @class = "control-label col-md-2" })
+                @Html.TextBoxFor(m => m.MinContractDurationTo, new { @class = "form-control" })
+            </div>
+            <div class="form-group">
+                @Html.LabelFor(model => model.AutoExtensionFrom, htmlAttributes: new { @class = "control-label col-md-2" })
+                @Html.TextBoxFor(m => m.AutoExtensionFrom, new { @class = "form-control" })
+                @Html.LabelFor(model => model.AutoExtensionTo, htmlAttributes: new { @class = "control-label col-md-2" })
+                @Html.TextBoxFor(m => m.AutoExtensionTo, new { @class = "form-control" })
+            </div>
+            <div class="form-group">
+                @Html.LabelFor(model => model.CancellationPeriodFrom, htmlAttributes: new { @class = "control-label col-md-2" })
+                @Html.TextBoxFor(m => m.CancellationPeriodFrom, new { @class = "form-control" })
+                @Html.LabelFor(model => model.CancellationPeriodTo, htmlAttributes: new { @class = "control-label col-md-2" })
+                @Html.TextBoxFor(m => m.CancellationPeriodTo, new { @class = "form-control" })
+            </div>
+            <div class="form-group">
+                @Html.LabelFor(model => model.ContractValueFrom, htmlAttributes: new { @class = "control-label col-md-2" })
+                @Html.TextBoxFor(m => m.ContractValueFrom, new { @class = "form-control" })
+                @Html.LabelFor(model => model.ContractValueTo, htmlAttributes: new { @class = "control-label col-md-2" })
+                @Html.TextBoxFor(m => m.ContractValueTo, new { @class = "form-control" })
+            </div>
+            <div class="form-group">
+                @Html.LabelFor(model => model.TaxFrom, htmlAttributes: new { @class = "control-label col-md-2" })
+                @Html.TextBoxFor(m => m.TaxFrom, new { @class = "form-control" })
+                @Html.LabelFor(model => model.TaxTo, htmlAttributes: new { @class = "control-label col-md-2" })
+                @Html.TextBoxFor(m => m.TaxTo, new { @class = "form-control" })
+            </div>
+            <div class="form-group">
+                @Html.LabelFor(model => model.AnnualValueFrom, htmlAttributes: new { @class = "control-label col-md-2" })
+                @Html.TextBoxFor(m => m.AnnualValueFrom, new { @class = "form-control" })
+                @Html.LabelFor(model => model.AnnualValueTo, htmlAttributes: new { @class = "control-label col-md-2" })
+                @Html.TextBoxFor(m => m.AnnualValueTo, new { @class = "form-control" })
+            </div>
+        </div>
+        <div class="form-group">
+            <div class="col-md-offset-2 col-md-10">
+                <input id="Search" type="submit" value="Search" class="textBtn" name="submit" />
+            </div>
+        </div>
+
+
+
+
+
+
+        @if (Model.Contracts != null)
+        {
+        <div class="innerWrapper flexSizeMax">
+            <h2>Such­er­geb­nis</h2>
+            <div class="scrollable">
+
+                <table class="table">
+                    <tr>
+                        <th>
+                            @Html.DisplayNameFor(model => model.sample.IntContractNum)
+                        </th>
+                        <th>
+                            @Html.DisplayNameFor(model => model.sample.ExtContractNum)
+                        </th>
+                        <th>
+                            @Html.DisplayNameFor(model => model.sample.ContractValue)
+                        </th>
+                        <th>
+                            @Html.DisplayNameFor(model => model.sample.Tax)
+                        </th>
+                        <th>
+                            @Html.DisplayNameFor(model => model.sample.AnnualValue)
+                        </th>
+                        <th>
+                            @Html.DisplayNameFor(model => model.sample.PaymentBegin)
+                        </th>
+                        <th>
+                            @Html.DisplayNameFor(model => model.sample.PaymentInterval)
+                        </th>
+                        <th>
+                            @Html.DisplayNameFor(model => model.sample.ContractBegin)
+                        </th>
+                        <th>
+                            @Html.DisplayNameFor(model => model.sample.MinContractDuration)
+                        </th>
+                        <th>
+                            @Html.DisplayNameFor(model => model.sample.ContractEnd)
+                        </th>
+                        <th>
+                            @Html.DisplayNameFor(model => model.sample.Description) 
+                        </th>
+                        <th>
+                            @Html.DisplayNameFor(model => model.sample.AutoExtension) 
+                        </th>
+                        <th>
+                            @Html.DisplayNameFor(model => model.sample.Remarks) 
+                        </th>
+                        <th>
+                            @Html.DisplayNameFor(model => model.sample.CancellationPeriod)
+                        </th>
+                        <th>
+                            @Html.DisplayNameFor(model => model.sample.PrePayable)
+                        </th>
+                        <th>
+                            @Html.DisplayNameFor(model => model.sample.VarPayable)
+                        </th>
+                        <th>
+                            @Html.DisplayNameFor(model => model.sample.Adaptable)
+                        </th>
+                        <th>
+                            @Html.DisplayNameFor(model => model.sample.IsFrameContract)
+                        </th>
+                        <th>
+                            @Html.DisplayNameFor(model => model.sample.Department)
+                        </th>
+                        <th>
+                            @Html.DisplayNameFor(model => model.sample.SupervisorDepartment)
+                        </th>
+                        <th>
+                            @Html.DisplayNameFor(model => model.sample.Owner)
+                        </th>
+                        <th>
+                            @Html.DisplayNameFor(model => model.sample.Signer)
+                        </th>
+                        <th>
+                            @Html.DisplayNameFor(model => model.sample.ContractKind)
+                        </th>
+                        <th>
+                            @Html.DisplayNameFor(model => model.sample.ContractType)
+                        </th>
+                        <th>
+                            @Html.DisplayNameFor(model => model.sample.ContractSubType)
+                        </th>
+                        <th>
+                            @Html.DisplayNameFor(model => model.sample.ContractStatus)
+                        </th>
+                        <th>
+                            @Html.DisplayNameFor(model => model.sample.CostKind)
+                        </th>
+                        <th>
+                            @Html.DisplayNameFor(model => model.sample.ContractPartner)
+                        </th>
+                    </tr>
+
+                    @foreach (var item in Model.Contracts)
+                    {
+                        <tr>
+                            <td>
+                                @Html.DisplayFor(modelItem => item.IntContractNum)
+                            </td>
+                            <td>
+                                @Html.DisplayFor(modelItem => item.ExtContractNum)
+                            </td>
+                            <td>
+                                @Html.DisplayFor(modelItem => item.ContractValue)
+                            </td>
+                            <td>
+                                @Html.DisplayFor(modelItem => item.Tax)
+                            </td>
+                            <td>
+                                @Html.DisplayFor(modelItem => item.AnnualValue)
+                            </td>
+                            <td>
+                                @Html.DisplayFor(modelItem => item.PaymentBegin)
+                            </td>
+                            <td>
+                                @Html.DisplayFor(modelItem => item.PaymentInterval)
+                            </td>
+                            <td>
+                                @Html.DisplayFor(modelItem => item.ContractBegin)
+                            </td>
+                            <td>
+                                @Html.DisplayFor(modelItem => item.MinContractDuration)
+                            </td>
+                            <td>
+                                @Html.DisplayFor(modelItem => item.ContractEnd)
+                            </td>
+                            <td>
+                                @Html.DisplayFor(modelItem => item.Description)
+                            </td>
+                            <td>
+                                @Html.DisplayFor(modelItem => item.AutoExtension)
+                            </td>
+                            <td>
+                                @Html.DisplayFor(modelItem => item.Remarks)
+                            </td>
+                            <td>
+                                @Html.DisplayFor(modelItem => item.CancellationPeriod)
+                            </td>
+                            <td>
+                                @Html.DisplayFor(modelItem => item.PrePayable)
+                            </td>
+                            <td>
+                                @Html.DisplayFor(modelItem => item.VarPayable)
+                            </td>
+                            <td>
+                                @Html.DisplayFor(modelItem => item.Adaptable)
+                            </td>
+                            <td>
+                                @Html.DisplayFor(modelItem => item.IsFrameContract)
+                            </td>
+                            <td>
+                                @Html.DisplayFor(modelItem => item.Department.DepartmentName)
+                            </td>
+                            <td>
+                                @Html.DisplayFor(modelItem => item.SupervisorDepartment.DepartmentName)
+                            </td>
+                            <td>
+                                @Html.DisplayFor(modelItem => item.Owner.UserName)
+                            </td>
+                            <td>
+                                @Html.DisplayFor(modelItem => item.Signer.UserName)
+                            </td>
+                            <td>
+                                @Html.DisplayFor(modelItem => item.ContractKind.Description)
+                            </td>
+                            <td>
+                                @Html.DisplayFor(modelItem => item.ContractType.Description)
+                            </td>
+                            <td>
+                                @Html.DisplayFor(modelItem => item.ContractSubType.Description)
+                            </td>
+                            <td>
+                                @Html.DisplayFor(modelItem => item.ContractStatus.Description)
+                            </td>
+                            <td>
+                                @Html.DisplayFor(modelItem => item.CostKind.Description)
+                            </td>
+                            <td>
+                                @Html.DisplayFor(modelItem => item.ContractPartner.Name)
+                            </td>
+                            <td>
+                                @*ober: Edit Icons*@
+                                @Html.ActionLink("edit", "Edit", new { id = item.Id }, new { @class = "material-icons md-24", title = "Bearbeiten" })
+                                @Html.ActionLink("description", "CreateFiles", "Contract", new { id = item.Id }, new { @class = "material-icons md-24", title = "Dateien" })
+                                @Html.ActionLink("delete", "Delete", new { id = item.Id }, new { @class = "material-icons md-24", title = "Löschen" })
+                            </td>
+                        </tr>
+                    }
+
+                </table>
+            </div>
+        </div>
+        }
+    </div>
+}
+@section Scripts {
+    @Scripts.Render("~/bundles/jqueryval")
+    @Styles.Render("~/Content/css/JQuery/calendar.css")
+    @Scripts.Render("~/Scripts/Layout/datepicker.js")
+}

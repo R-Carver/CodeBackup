@@ -1,0 +1,366 @@
+﻿@model IEnumerable<WebApplication1.Models.Contract>
+@{
+    ViewBag.Title = "Meine Verträge"; //Ober: NameChange
+}
+<div class="innerWrapper">
+    <h2>@ViewBag.Title</h2>
+    <div class="contractTableWrapper">
+        <div class="scrollable tableContent">
+            <table class="table">
+                <tr>
+                    <th>
+                        @*4.1 Int. Vertragsnummer*@
+                        @Html.DisplayNameFor(model => model.IntContractNum)
+                    </th>
+                    <th>
+                        @*4.2 Ext. Vertragsnummer*@
+                        @Html.DisplayNameFor(model => model.ExtContractNum)
+                    </th>
+                    <th>
+                        @*4.3 Vertragsgegenstand*@
+                        @Html.DisplayNameFor(model => model.Description)
+                    </th>
+                    <th>
+                        @*4.7 Unterzeichner*@
+                        @Html.DisplayNameFor(model => model.Signer)
+                    </th>
+                    <th>
+                        @*4.8 Sachlich Verantwortlicher*@
+                        @Html.DisplayNameFor(model => model.Owner)
+                    </th>
+                    <th>
+                        @*4.4 Kategorie*@
+                        @Html.DisplayNameFor(model => model.ContractType)
+                    </th>
+                    <th>
+                        @*4.5 Unterkategorie*@
+                        @Html.DisplayNameFor(model => model.ContractSubType)
+                    </th>
+                    <th>
+                        @*4.6 Vertragsart*@
+                        @Html.DisplayNameFor(model => model.ContractKind)
+                    </th>
+                    <th>
+                        @*4.9 Zugeordnete Abteilung*@
+                        @Html.DisplayNameFor(model => model.Department)
+                    </th>
+                    <th>
+                        @*4.10 Überwachende Abteilung*@
+                        @Html.DisplayNameFor(model => model.SupervisorDepartment)
+                    </th>
+                    <th>
+                        @*4.11 Vertragswert*@
+                        @Html.DisplayNameFor(model => model.ContractValue)
+                    </th>
+                    <th>
+                        @*4.12 Kosten pro Gesch-Jahr*@
+                        @Html.DisplayNameFor(model => model.AnnualValue)
+                    </th>
+                    @*4.13 Characteristics: is not relevant yet*@
+                    <th>
+                        @*4.14 Zahlungsbeginn*@
+                        @Html.DisplayNameFor(model => model.PaymentBegin)
+                    </th>
+                    <th>
+                        @*4.15 Zahlungsintervall*@
+                        @Html.DisplayNameFor(model => model.PaymentInterval)
+                    </th>
+                    <th>
+                        @*4.16 Kostenstelle*@
+                        @Html.DisplayNameFor(model => model.ContractCostCenter_Relations)
+                    </th>
+                    <th>
+                        @*4.17 Kostenart*@
+                        @Html.DisplayNameFor(model => model.CostKind)
+                    </th>
+                    <th>
+                        @*4.18 Vertragspartner*@
+                        @Html.DisplayNameFor(model => model.ContractPartner)
+                    </th>
+                    <th>
+                        @*4.19 Vertragsbeginn*@
+                        @Html.DisplayNameFor(model => model.ContractBegin)
+                    </th>
+                    <th>
+                        @*4.23 Vertragsende*@
+                        @Html.DisplayNameFor(model => model.ContractEnd)
+                    </th>
+                    <th>
+                        @*4.20 Kündigungsfrist*@
+                        @Html.DisplayNameFor(model => model.CancellationPeriod)
+                    </th>
+                    <th>
+                        @*4.21 Kündigungstermin*@
+                        @Html.DisplayNameFor(model => model.CancellationDate)
+                    </th>
+                    <th>
+                        @*4.22 Min. Vertragsdauer*@
+                        @Html.DisplayNameFor(model => model.MinContractDuration)
+                    </th>
+                    <th>
+                        @*4.24 Verlängerung*@
+                        @Html.DisplayNameFor(model => model.AutoExtension)
+                    </th>
+                    <th>
+                        @*4.27 MwSt*@
+                        @Html.DisplayNameFor(model => model.Tax)
+                    </th>
+                    @*4.28 Bemerkungen: not relevant*@
+                    <th>
+                        @*Dispatcher als Aufgabe*@
+                        @Html.DisplayNameFor(model => model.Dispatcher)
+                    </th>
+                </tr>
+                @foreach (var item in Model)
+            {
+                    <tr>
+                        <td>
+                            @Html.DisplayFor(modelItem => item.IntContractNum)
+                        </td>
+                        <td>
+                            @Html.DisplayFor(modelItem => item.ExtContractNum)
+                        </td>
+                        <td>
+                            @Html.ActionLink(item.Description, "Details", "Contract", new { id = item.Id }, new { @class = "link" })
+                            @*@Html.DisplayFor(modelItem => item.Description)*@
+                        </td>
+                        <td>
+                            @*4.7 Unterzeichner*@
+                            @Html.DisplayFor(model => item.Signer.UserName)
+                        </td>
+                        <td>
+                            @*4.8 Sachlich Verantwortlicher*@
+                            @Html.DisplayFor(model => item.Owner.UserName)
+                        </td>
+                        <td>
+                            @*4.4 Kategorie*@
+                            @Html.DisplayFor(model => item.ContractType.Description)
+                        </td>
+                        <td>
+                            @*4.5 Unterkategorie*@
+                            @Html.DisplayFor(model => item.ContractSubType.Description)
+                        </td>
+                        <td>
+                            @*4.6 Vertragsart*@
+                            @Html.DisplayFor(model => item.ContractKind.Description)
+                        </td>
+                        <td>
+                            @*4.9 Zugeordnete Abteilung*@
+                            @Html.DisplayFor(model => item.Department.DepartmentName)
+                        </td>
+                        <td>
+                            @*4.10 Überwachende Abteilung*@
+                            @Html.DisplayFor(model => item.SupervisorDepartment.DepartmentName)
+                        </td>
+                        <td>
+                            @*4.11 Vertragswert*@
+                            @Html.DisplayFor(model => item.ContractValue)
+                        </td>
+                        <td>
+                            @*4.12 Kosten pro Gesch-Jahr*@
+                            @Html.DisplayFor(model => item.AnnualValue)
+                        </td>
+                        @*4.13 Characteristics: is not relevant yet*@
+                        <td>
+                            @*4.14 Zahlungsbeginn*@
+                            @Html.DisplayFor(model => item.PaymentBegin)
+                        </td>
+                        <td>
+                            @*4.15 Zahlungsintervall*@
+                            @Html.DisplayFor(model => item.PaymentInterval)
+                        </td>
+                        <td>
+                            @*4.16 Kostenstelle*@
+                            @Html.DisplayFor(model => item.ContractCostCenter_Relations.FirstOrDefault().CostCenter.Description)
+                        </td>
+                        <td>
+                            @*4.17 Kostenart*@
+                            @Html.DisplayFor(model => item.CostKind.Description)
+                        </td>
+                        <td>
+                            @*4.18 Vertragspartner*@
+                            @Html.DisplayFor(model => item.ContractPartner.Name)
+                        </td>
+                        <td>
+                            @*4.19 Vertragsbeginn*@
+                            @Html.DisplayFor(model => item.ContractBegin)
+                        </td>
+                        <td>
+                            @*4.23 Vertragsende*@
+                            @Html.DisplayFor(model => item.ContractEnd)
+                        </td>
+                        <td>
+                            @*4.20 Kündigungsfrist*@
+                            @Html.DisplayFor(model => item.CancellationPeriod)
+                        </td>
+                        <td>
+                            @*4.21 Kündigungstermin*@
+                            @Html.DisplayFor(model => item.CancellationDate)
+                        </td>
+                        <td>
+                            @*4.22 Min. Vertragsdauer*@
+                            @Html.DisplayFor(model => item.MinContractDuration)
+                        </td>
+                        <td>
+                            @*4.24 Verlängerung*@
+                            @Html.DisplayFor(model => item.AutoExtension)
+                        </td>
+                        <td>
+                            @*4.27 MwSt*@
+                            @Html.DisplayFor(model => item.Tax)
+                        </td>
+                        @*4.28 Bemerkungen: not relevant*@
+                        <td>
+                            @*Dispatcher als Aufgabe*@
+                            @Html.DisplayFor(model => item.Dispatcher.UserName)
+                        </td>
+                    </tr>
+                }
+            </table>
+        </div>
+        <div class="tableControls">
+            <table class="table">
+                <tr>
+                    <th>
+                        @*4.29 Vertragsstatus*@
+                        @*@Html.DisplayNameFor(model => model.ContractStatus)*@
+                        <i title="Vertragsstatus" class="material-icons md-18">flag</i>
+                    </th>
+                    @*4.30 Ablageort: not relevant*@
+                    <th>
+                        @*Select Columns*@
+                        <button id="select-column-btn" title="Set preferred columns"><i class="material-icons md-18">view_column</i><span> Columns</span></button> @*ober: SelectColumns*@
+                    </th>
+                </tr>
+                @foreach (var item in Model)
+                {
+                    <tr>
+                        <td>
+                            @*4.29 Vertragsstatus*@
+                            @if (item.ContractStatus != null)
+                            {
+                                string status = item.ContractStatus.Description;
+                                if (status == "incomplete")
+                                {
+                                    <i title="unvollständig" class="material-icons" style="color: orange">warning</i>
+                                }
+                                else if (status == "active")
+                                {
+                                    <i title="aktiv" class="material-icons" style="color: green">check</i>
+                                }
+                                else if (status == "deleted")
+                                {
+                                    <i title="gelöscht" class="material-icons" style="color: black">delete</i>
+                                }
+                                else if (status == "repealed")
+                                {
+                                    <i title="gekündigt" class="material-icons" style="color: purple">access_time</i>
+                                }
+                                else
+                                {
+                                    <i title="beendet" class="material-icons" style="color: red">close</i>
+                                }
+                            }
+                            @*@Html.DisplayFor(model => item.ContractStatus.Description)*@
+                        </td>
+                        <td>
+                            @*ober: Edit Icons*@
+                            @Html.ActionLink("edit", "CreateGeneral", new { id = item.Id }, new { @class = "material-icons md-22", title = "Bearbeiten" })
+                            @Html.ActionLink("description", "CreateFiles", new { id = item.Id }, new { @class = "material-icons md-22", title = "Dateien" })
+                            @Html.ActionLink("delete", "Delete", new { id = item.Id }, new { @class = "material-icons md-22", title = "Löschen", onclick = "return confirm('Are you sure you wish to delete this article?');" })
+                            @*<input type="button" value="Delete" class="btn btn-default" />*@
+
+                            @*<input type="button" value="Delete" onclick="location.href='@Url.Action(" Delete", "Contract" )'; return false;" />*@
+
+                            @* @using (Html.BeginForm())
+                            {
+                            @Html.AntiForgeryToken()
+
+                            <div class="form-actions no-color">
+                                <input type="submit" value="Delete" class="btn btn-default" /> |
+                                @Html.ActionLink("Back to List", "Index")
+                            </div>
+                            }*@
+
+                            @*@using (Html.BeginForm("Delete", "Delete", new { id = item.Id }, FormMethod.Post, new { onsubmit = "return confirm('Are you sure you wish to delete this article?');" }))
+                            {
+                            @Html.HttpMethodOverride(HttpVerbs.Delete)
+                            <button type="submit">Delete</button>
+                            }*@
+                            @*OnClientClick="javascript:confirm('Are you sure?');"*@
+                        </td>
+                    </tr>
+                    }
+
+                </table>
+            </div>
+        </div>
+
+        <!--Ober: Dialog for displaying Columns-->
+        <div class="rightFloat">
+            <a href="@Url.Action("CreateInit", "Contract")" id="createContractBtn" , class="textBtn"><i class="material-icons md-22">note_add</i><font class="semibold"> Vertrag anlegen</font></a>
+        </div>
+    </div>
+
+    <div id="select-column-dialog" title="Basic dialog">
+        @Html.CheckBox("IntNo-cb")
+        @Html.DisplayNameFor(model => model.IntContractNum)<br />
+        @Html.CheckBox("ExtNo-cb")
+        @Html.DisplayNameFor(model => model.ExtContractNum)<br />
+        @Html.CheckBox("Description-cb", new { style = "display: none" })
+        @*@Html.DisplayNameFor(model => model.Description)<br />*@
+        @Html.CheckBox("Signer-cb")
+        @Html.DisplayNameFor(model => model.Signer)<br />
+        @Html.CheckBox("Owner-cb")
+        @Html.DisplayNameFor(model => model.Owner)<br />
+        @Html.CheckBox("CType-cb")
+        @Html.DisplayNameFor(model => model.ContractType)<br />
+        @Html.CheckBox("CSubType-cb")
+        @Html.DisplayNameFor(model => model.ContractSubType)<br />
+        @Html.CheckBox("CKind-cb")
+        @Html.DisplayNameFor(model => model.ContractKind)<br />
+        @Html.CheckBox("Department-cb")
+        @Html.DisplayNameFor(model => model.Department)<br />
+        @Html.CheckBox("SuperVisorDepartment-cb")
+        @Html.DisplayNameFor(model => model.SupervisorDepartment)<br />
+        @Html.CheckBox("CValue-cb")
+        @Html.DisplayNameFor(model => model.ContractValue)<br />
+        @Html.CheckBox("AnnualValue-cb")
+        @Html.DisplayNameFor(model => model.AnnualValue)<br />
+        @Html.CheckBox("PayBegin-cb")
+        @Html.DisplayNameFor(model => model.PaymentBegin)<br />
+        @Html.CheckBox("PayInterval-cb")
+        @Html.DisplayNameFor(model => model.PaymentInterval)<br />
+        @Html.CheckBox("CostCenter-cb")
+        @Html.DisplayNameFor(model => model.ContractCostCenter_Relations)<br />
+        @Html.CheckBox("CostKind-cb")
+        @Html.DisplayNameFor(model => model.CostKind)<br />
+        @Html.CheckBox("CPartner-cb")
+        @Html.DisplayNameFor(model => model.ContractPartner)<br />
+        @Html.CheckBox("ContractBeg-cb")
+        @Html.DisplayNameFor(model => model.ContractBegin)<br />
+        @Html.CheckBox("ContractEnd-cb")
+        @Html.DisplayNameFor(model => model.ContractEnd)<br />
+        @Html.CheckBox("CancellationPeriod-cb")
+        @Html.DisplayNameFor(model => model.CancellationPeriod)<br />
+        @Html.CheckBox("CancellationAppointment-cb")
+        @Html.DisplayNameFor(model => model.CancellationDate)<br />
+        @Html.CheckBox("MinContractDuration-cb")
+        @Html.DisplayNameFor(model => model.MinContractDuration)<br />
+        @Html.CheckBox("AutoExtension-cb")
+        @Html.DisplayNameFor(model => model.AutoExtension)<br />
+        @Html.CheckBox("Tax-cb")
+        @Html.DisplayNameFor(model => model.Tax)<br />
+
+        @Html.CheckBox("Dispatcher-cb")
+        @Html.DisplayNameFor(model => model.Dispatcher)<br />
+
+        @Html.CheckBox("Status-cb", new { style = "display: none" })
+        @*@Html.DisplayNameFor(model => model.Description)<br />*@
+    </div>
+
+    @section Scripts{
+
+        @Styles.Render("~/Content/css/JQuery/dialog.css")
+        @Scripts.Render("~/Scripts/Layout/contractTableSelection.js")
+    }<!--end Ober-->

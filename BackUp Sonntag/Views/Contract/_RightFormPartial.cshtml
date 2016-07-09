@@ -1,0 +1,88 @@
+﻿@model WebApplication1.Models.Contract
+@{
+    ViewBag.Title = "_MultiFormPartial";
+}
+<div id="multiForm" class="innerWrapper flexSize1">
+    <div>
+        <table class="table">
+            <tr>
+                <th>
+                    <span>Vertragsdetails</span>
+                </th>
+                <th>
+                </th>
+            </tr>
+            <tr>
+                <td>
+                    @Html.DisplayNameFor(model => model.ContractStatus)
+                </td>
+                <td>
+
+                    @*4.29 Vertragsstatus*@
+                    @if(Model != null) { 
+                        if (Model.ContractStatus != null)
+                        {
+                            string status = Model.ContractStatus.Description;
+                            if (status == "incomplete")
+                            {
+                                <i title="unvollständig" class="material-icons" style="color: orange">warning</i>
+                            }
+                            else if (status == "active")
+                            {
+                                <i title="aktiv" class="material-icons" style="color: green">check</i>
+                            }
+                            else if (status == "deleted")
+                            {
+                                <i title="gelöscht" class="material-icons" style="color: black">delete</i>
+                            }
+                            else if (status == "repealed")
+                            {
+                                <i title="gekündigt" class="material-icons" style="color: purple">access_time</i>
+                            }
+                            else
+                            {
+                                <i title="beendet" class="material-icons" style="color: red">close</i>
+                            }
+                            @Html.DisplayFor(model => model.ContractStatus.Description)
+                        }
+                    }
+                </td>
+            </tr>
+            <tr>
+                <td>
+                    @Html.DisplayNameFor(model => model.Description)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => Model.Description)
+                </td>
+            </tr>
+            <tr>
+                <td>
+                    @Html.DisplayNameFor(model => model.IntContractNum)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => Model.IntContractNum)
+                </td>
+            </tr>
+            <tr>
+                <td>
+                    @Html.DisplayNameFor(model => model.Owner)
+                </td>
+                <td>
+                    @Html.DisplayFor(model => model.Owner.UserName)
+                </td>
+            </tr>
+        </table>
+
+    </div>
+    <div class="bottomWrapper">
+        @*Removed Form Group*@
+            <div class="col-md-offset-2 col-md-10">
+                <input id="CreateContract" type="submit" value="Weiter" class="textBtn leftFloat" name="submit" />
+            </div>
+            <div class="col-md-offset-2 col-md-10">
+                <input id="SaveContract" type="submit" value="Speichern und zur Übersicht" class="textBtn leftFloat" name="submit" />
+            </div>
+    </div>
+</div>
+

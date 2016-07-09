@@ -1,0 +1,272 @@
+﻿@using WebApplication1.Models;
+@model WebApplication1.Models.Contract
+@{
+    ViewBag.Title = "Details";
+}
+
+<div class="flexWrapper">
+    <div class="flexSize2 innerWrapper">
+        <h2>Details</h2>
+        <div>
+            <table class="table">
+                <tr>
+                    <th>
+                        <span>Vertragsdetails</span>
+                    </th>
+                    <th>
+                    </th>
+                </tr>
+                <tr>
+                    <td>
+                        @Html.DisplayNameFor(model => model.ContractStatus)
+                    </td>
+                    <td>
+
+                        @*4.29 Vertragsstatus*@
+                        @if (Model != null)
+                        {
+                            if (Model.ContractStatus != null)
+                            {
+                                string status = Model.ContractStatus.Description;
+                                if (status == "incomplete")
+                                {
+                                    <i title="unvollständig" class="material-icons" style="color: orange">warning</i>
+                                }
+                                else if (status == "active")
+                                {
+                                    <i title="aktiv" class="material-icons" style="color: green">check</i>
+                                }
+                                else if (status == "deleted")
+                                {
+                                    <i title="gelöscht" class="material-icons" style="color: black">delete</i>
+                                }
+                                else if (status == "repealed")
+                                {
+                                    <i title="gekündigt" class="material-icons" style="color: purple">access_time</i>
+                                }
+                                else
+                                {
+                                    <i title="beendet" class="material-icons" style="color: red">close</i>
+                                }
+                                @Html.DisplayFor(model => model.ContractStatus.Description)
+                            }
+                        }
+                    </td>
+                </tr>
+                <tr>
+                    <td>
+                        @Html.DisplayNameFor(model => model.Description)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => Model.Description)
+                    </td>
+                </tr>
+                <tr>
+                    <td>
+                        @Html.DisplayNameFor(model => model.ExtContractNum)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => Model.ExtContractNum)
+                    </td>
+                </tr>
+                <tr>
+                    <td>
+                        @Html.DisplayNameFor(model => model.IntContractNum)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => Model.IntContractNum)
+                    </td>
+                </tr>
+                <tr>
+                    <td>
+                        @Html.DisplayNameFor(model => model.Owner)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(model => model.Owner.UserName)
+                    </td>
+                </tr>
+                <tr>
+                    <td>
+                        @Html.DisplayNameFor(model => model.Signer)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => Model.Signer.UserName)
+                    </td>
+                </tr>
+                <tr>
+                    <td>
+                        @Html.DisplayNameFor(model => model.ContractType)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => Model.ContractType.Description)
+                    </td>
+                </tr>
+                <tr>
+                    <td>
+                        @Html.DisplayNameFor(model => model.ContractSubType)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => Model.ContractSubType.Description)
+                    </td>
+                </tr>
+                <tr>
+                    <td>
+                        @Html.DisplayNameFor(model => model.ContractKind)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => Model.ContractKind.Description)
+                    </td>
+                </tr>
+                <tr>
+                    <td>
+                        @Html.DisplayNameFor(model => model.Department)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => Model.Department.DepartmentName)
+                    </td>
+                </tr>
+                <tr>
+                    <td>
+                        @Html.DisplayNameFor(model => model.SupervisorDepartment)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => Model.SupervisorDepartment.DepartmentName)
+                    </td>
+                </tr>
+                <tr>
+                    <td>
+                        @Html.DisplayNameFor(model => model.ContractValue)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => Model.ContractValue)
+                    </td>
+                </tr>
+                <tr>
+                    <td>
+                        @Html.DisplayNameFor(model => model.AnnualValue)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => Model.AnnualValue)
+                    </td>
+                </tr>
+                <tr>
+                    <td>
+                        @Html.DisplayNameFor(model => model.PaymentBegin)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => Model.PaymentBegin)
+                    </td>
+                </tr>
+                <tr>
+                    <td>
+                        @Html.DisplayNameFor(model => model.PaymentInterval)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => Model.PaymentInterval)
+                    </td>
+                </tr>
+                <tr>
+                    <td>
+                        @Html.DisplayNameFor(model => model.ContractCostCenter_Relations)
+                    </td>
+                    <td>
+                        @{
+                            foreach (ContractCostCenter_Relation cCenter in Model.ContractCostCenter_Relations)
+                            {
+                                @Html.DisplayFor(modelItem => cCenter.CostCenter.Description)<br/>
+                            }
+                        }
+                    </td>
+                </tr>
+                <tr>
+                    <td>
+                        @Html.DisplayNameFor(model => model.CostKind)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => Model.CostKind.Description)
+                    </td>
+                </tr>
+                <tr>
+                    <td>
+                        @Html.DisplayNameFor(model => model.ContractPartner)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => Model.ContractPartner.Name)
+                    </td>
+                </tr>
+                <tr>
+                    <td>
+                        @Html.DisplayNameFor(model => model.ContractBegin)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => Model.ContractBegin)
+                    </td>
+                </tr>
+                <tr>
+                    <td>
+                        @Html.DisplayNameFor(model => model.ContractEnd)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => Model.ContractEnd)
+                    </td>
+                </tr>
+                <tr>
+                    <td>
+                        @Html.DisplayNameFor(model => model.CancellationPeriod)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => Model.CancellationPeriod)
+                    </td>
+                </tr>
+                <tr>
+                    <td>
+                        @Html.DisplayNameFor(model => model.CancellationDate)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => Model.CancellationDate)
+                    </td>
+                </tr>
+                <tr>
+                    <td>
+                        @Html.DisplayNameFor(model => model.MinContractDuration)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => Model.MinContractDuration)
+                    </td>
+                </tr>
+                <tr>
+                    <td>
+                        @Html.DisplayNameFor(model => model.AutoExtension)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => Model.AutoExtension)
+                    </td>
+                </tr>
+                <tr>
+                    <td>
+                        @Html.DisplayNameFor(model => model.Tax)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => Model.Tax)
+                    </td>
+                </tr>
+                <tr>
+                    <td>
+                        @Html.DisplayNameFor(model => model.Dispatcher)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => Model.Dispatcher.UserName)
+                    </td>
+                </tr>
+            </table>
+
+        </div>
+
+    </div>
+    <div class="flexSize1 innerWrapper">
+        <p>
+            @Html.ActionLink("Edit", "CreateGeneral", new { id = Model.Id }, new { @class = "textBtn leftFloat" })
+            @Html.ActionLink("Back to List", "Index", null, new { @class = "textBtn leftFloat" })
+        </p>
+    </div>
+</div>

@@ -1,0 +1,207 @@
+﻿@model WebApplication1.Models.ViewModels.ContractCreateGeneralViewModel
+
+@{
+    ViewBag.Title = "Allgemein";
+}
+
+@Html.Partial("_MultiCreatePartial")
+@using (Html.BeginForm())
+{
+    @Html.AntiForgeryToken()
+
+    <div class="flexWrapper">
+        <div class="flexVertWrapper flexSize2">
+            <div class="innerWrapper flexSizeMax">
+                <h2>@ViewBag.Title</h2>
+                @Html.HiddenFor(model => model.ContractId)
+                <div>
+                    @*Externe Vertragsnummer*@
+                    <div class="form-group col-md-5">
+                        @Html.LabelFor(model => model.ExtContractNum, htmlAttributes: new { @class = "control-label col-md-10" })
+                        <div class="col-md-10">
+                            @Html.TextBoxFor(model => model.ExtContractNum, new { @class = "form-control" })
+                            @Html.ValidationMessageFor(model => model.ExtContractNum, "", new { @class = "text-danger" })
+                        </div>
+                    </div>
+                    @*Rahmenvertragsoptionen*@
+                    <div class="form-group col-md-5">
+                        @Html.LabelFor(model => model.FrameOptionChosen, htmlAttributes: new { @class = "control-label col-md-10" })
+                        <div class="col-md-10">
+                            @Html.DropDownListFor(m => m.FrameOptionChosen, Model.FrameContractChoice, htmlAttributes: new { @class = "form-control" })
+                            @Html.ValidationMessageFor(model => model.FrameOptionChosen, "", new { @class = "text-danger" })
+                        </div>
+                    </div>
+                    @*Rahmenvertrag*@
+                    <div class="form-group col-md-push-5" id="FrameContractBox" style="display:none">
+                        @Html.LabelFor(model => model.MainFrameIdSelected, htmlAttributes: new { @class = "control-label col-md-10" })
+                        <div class="col-md-10">
+                            @Html.DropDownListFor(m => m.MainFrameIdSelected, Model.MainFrameContracts, "- select nothing -", htmlAttributes: new { @class = "form-control" })
+                            @Html.ValidationMessageFor(model => model.MainFrameIdSelected, "", new { @class = "text-danger" })
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="innerWrapper flexSizeMax">
+                @*Chr: Vertragstyp anlegen, *@
+                <div class="form-group col-md-10">
+                    @Html.LabelFor(model => model.ContractKindId, htmlAttributes: new { @class = "control-label col-md-10" })
+                    <div class="col-md-5">
+                        @Html.DropDownListFor(m => m.ContractKindId, Model.ContractKinds, "- select nothing -", htmlAttributes: new { @class = "form-control" })
+                        @Html.ValidationMessageFor(model => model.ContractKindId, "", new { @class = "text-danger" })
+                    </div>
+                </div>
+                <div>
+                    @*Chr: Vertragsart anlegen, *@
+                    <div class="form-group col-md-5">
+                        @Html.LabelFor(model => model.ContractTypeId, htmlAttributes: new { @class = "control-label col-md-10" })
+                        <div class="col-md-10">
+                            @Html.DropDownListFor(m => m.ContractTypeId, Model.ContractTypes, "- select nothing -", htmlAttributes: new { @class = "form-control" })
+                            @Html.ValidationMessageFor(model => model.ContractTypeId, "", new { @class = "text-danger" })
+                        </div>
+                    </div>
+
+                    @*Ober: Define Subtype *@
+                    <div class="form-group col-md-5" id="SubTypeBox" style="display:none">
+                        @Html.LabelFor(model => model.ContractSubTypeId, htmlAttributes: new { @class = "control-label col-md-10" })
+                        <div class="col-md-10">
+                            @Html.DropDownListFor(m => m.ContractSubTypeId, Model.ContractSubTypes, "- select nothing -", htmlAttributes: new { @class = "form-control" })
+                            @Html.ValidationMessageFor(model => model.ContractSubTypeId, "", new { @class = "text-danger" })
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="innerWrapper flexSizeMax">
+                <div>
+                    @*Ober: Define Department *@
+                    <div class="form-group col-md-5">
+                        @Html.LabelFor(model => model.DepartmentId, htmlAttributes: new { @class = "control-label col-md-10" })
+                        <div class="col-md-10">
+                            @Html.DropDownListFor(m => m.DepartmentId, Model.Departments, "- select nothing -", htmlAttributes: new { @class = "form-control" })
+                            @Html.ValidationMessageFor(model => model.DepartmentId, "", new { @class = "text-danger" })
+                        </div>
+                    </div>
+
+                    @*Ober: Define SuperVisorDepartment *@
+                    <div class="form-group col-md-5">
+                        @Html.LabelFor(model => model.SupervisorDepartmentId, htmlAttributes: new { @class = "control-label col-md-10" })
+                        <div class="col-md-10">
+                            @Html.DropDownListFor(m => m.SupervisorDepartmentId, Model.Departments, "- select nothing -", htmlAttributes: new { @class = "form-control" })
+                            @Html.ValidationMessageFor(model => model.SupervisorDepartmentId, "", new { @class = "text-danger" })
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="innerWrapper flexSizeMax">
+                <div class="form-group">
+                    @Html.LabelFor(model => model.Remarks, htmlAttributes: new { @class = "control-label col-md-2" })
+                    <div class="col-md-10">
+                        @Html.TextAreaFor(model => model.Remarks, new { htmlAttributes = new { @class = "form-control" } })
+                        @Html.ValidationMessageFor(model => model.SupervisorDepartmentId, "", new { @class = "text-danger" })
+                    </div>
+                </div>
+
+            </div>
+            <div class="innerWrapper flexSizeMax">
+                @*Physical Doc Adress Panel*@
+                <div class="form-group col-md-4">
+                    @Html.LabelFor(model => model.PhysicalDocAdressId, htmlAttributes: new { @class = "control-label col-md-10" })
+                    <div class="col-md-10">
+                        @Html.DropDownListFor(m => m.PDA_DepartmentId, Model.Departments, "- select nothing -", htmlAttributes: new { @class = "form-control" })
+                        @Html.ValidationMessageFor(model => model.PDA_DepartmentId, "", new { @class = "text-danger" })
+                    </div>
+                </div>
+
+                <div class="form-group col-md-3">
+                    @Html.LabelFor(model => model.PDA_Room, htmlAttributes: new { @class = "control-label col-md-10" })
+                    <div class="col-md-10">
+                        @Html.EditorFor(model => model.PDA_Room, new { htmlAttributes = new { @class = "form-control" } })
+                        @Html.ValidationMessageFor(model => model.PDA_Room, "", new { @class = "text-danger" })
+                    </div>
+                </div>
+
+                <div class="form-group col-md-3">
+                    @Html.LabelFor(model => model.PDA_Adress, htmlAttributes: new { @class = "control-label col-md-10" })
+                    <div class="col-md-10">
+                        @Html.EditorFor(model => model.PDA_Adress, new { htmlAttributes = new { @class = "form-control" } })
+                        @Html.ValidationMessageFor(model => model.PDA_Adress, "", new { @class = "text-danger" })
+                    </div>
+                </div>
+            </div>
+            <div class="innerWrapper flexSizeMax">
+                @*ContractPartner*@
+                <div class="form-group col-md-5">
+                    @Html.LabelFor(model => model.ContractPartnerId, htmlAttributes: new { @class = "control-label col-md-10" })
+                    <div class="col-md-10">
+                        @Html.DropDownListFor(m => m.ContractPartnerId, Model.ContractPartners, "- select nothing -", htmlAttributes: new { @class = "form-control" })
+                        @Html.ValidationMessageFor(model => model.ContractPartnerId, "", new { @class = "text-danger" })
+                    </div>
+                </div>
+            </div>
+        </div>
+        @Html.Partial("_RightFormPartial", Model.Contract, new ViewDataDictionary { TemplateInfo = new System.Web.Mvc.TemplateInfo { HtmlFieldPrefix = "Contract" } }))
+        @*Template Info is necessary, to define Model as Contract*@
+    </div>
+}
+
+@section Scripts {
+    @Scripts.Render("~/bundles/jqueryval")
+
+    <script type="text/javascript">
+        /******************Onload Page, update all Boxes*************/
+        $(document).ready(function () {
+            $.when(updateSubTypeFromType()).done(function () {
+                checkEmtpySubType();
+            });
+            /*Add more functions, if it's necessary*/
+        });
+
+        /******************MainFrame********************/
+
+        //On TypeChange
+        $(function () {
+            $("#FrameOptionChosen").change(function () {
+                if ($("#FrameOptionChosen :selected").val() == "FrameSub") {
+                    $("#FrameContractBox").show();
+                } else {
+                    $("#FrameContractBox").hide();
+                }
+            });
+        });
+
+        /******************Subtype********************/
+
+        //On TypeChange
+        $(function () {
+            $("#ContractTypeId").change(function () {
+                $.when(updateSubTypeFromType()).done(function () {
+                    checkEmtpySubType();
+                });
+            });
+        });
+
+        function checkEmtpySubType() {
+            //Checks if Subtype is empty
+            if ($("#ContractSubTypeId").has('option').length > 0) {
+                $("#SubTypeBox").show();
+            } else {
+                $("#SubTypeBox").hide();
+            }
+        }
+
+        function updateSubTypeFromType() {
+            var deffered = $.Deferred();
+            var selectedTypeValue = $('#ContractTypeId :selected').text();
+            $.post('@Url.Action("GetJsonContractSubTypesFromContractTypes", "Contract")', { type: selectedTypeValue }, function (data) {
+                // handle the server response here
+                $("#ContractSubTypeId").empty();
+                data = $.map(data, function (item, a) {
+                    return "<option value=" + item.Value + " " + (item.Selected ? "selected" : "") + ">" + item.Text + "</option>";
+                });
+
+                $("#ContractSubTypeId").html(data.join(""));
+                deffered.resolve();
+            });
+            return deffered.promise();
+        }
+    </script>
+}
